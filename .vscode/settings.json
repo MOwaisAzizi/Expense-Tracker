@@ -1,0 +1,16 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.base.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.controls.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.fxml.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.graphics.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.media.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.swing.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx.web.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\javafx-swt.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\jdk.jsobject.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\jfx.incubator.input.jar",
+        "d:\\javafx-sdk-24.0.1\\lib\\jfx.incubator.richtext.jar"
+    ]
+}

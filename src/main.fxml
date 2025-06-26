@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="414.0" prefWidth="790.0" style="-fx-background-color: #d4edda;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fill="#1c81c9f5" layoutX="85.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Items" textAlignment="JUSTIFY">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <TableView editable="true" layoutX="327.0" layoutY="133.0" prefHeight="228.0" prefWidth="400.0">
+        <columns>
+          <TableColumn fx:id="name" prefWidth="20.0" style="color: red;" text="-" />
+          <TableColumn prefWidth="142.39996337890625" text="Name" />
+            <TableColumn minWidth="8.00006103515625" prefWidth="59.20001220703125" text="Amount" />
+            <TableColumn prefWidth="73.5999755859375" text="Price" />
+            <TableColumn prefWidth="101.5999755859375" text="Date" />
+        </columns>
+      </TableView>
+      <VBox layoutX="14.0" layoutY="133.0" prefHeight="250.0" prefWidth="306.0" spacing="10.0" style="-fx-padding: 20px;">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="name" />
+            <TextField fx:id="fName" prefHeight="28.0" prefWidth="206.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="price" wrappingWidth="30.00820541381836" />
+            <TextField prefHeight="28.0" prefWidth="206.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="amont" />
+            <TextField prefHeight="32.0" prefWidth="266.0" />
+            <Button mnemonicParsing="false" style="-fx-background-color: blue; -fx-text-fill: white;" text="Save" />
+         </children>
+      </VBox>
+      <Text layoutX="225.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Your Expense" textOrigin="CENTER">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
