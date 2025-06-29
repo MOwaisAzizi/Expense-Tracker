@@ -7,13 +7,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainController.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
-
-        // Replace with your controller package path if needed
-        Controller controller = loader.getController();
-        // controller.setMainWindow(primaryStage);
-
         primaryStage.setTitle("Hello world");
         primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();
