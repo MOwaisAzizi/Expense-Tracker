@@ -1,0 +1,26 @@
+/* Root layout background */
+.root {
+    -fx-background-color: linear-gradient(
+        from 0% 0% to 100% 100%, 
+        #e5e3e3, #a9a9a9
+    );
+}
+
+/* Button styling */
+.button {
+    -fx-background-color: #90ee90;     /* Light green background */
+    -fx-text-fill: white;              /* White text */
+    -fx-font-weight: bold;             /* Bold text */
+    -fx-font-size: 14px;               /* Font size */
+    -fx-background-radius: 6px;        /* Rounded corners */
+    -fx-padding: 8 16;                 /* Padding: top/bottom, left/right */
+    -fx-border-color: #64c464;         /* Optional green border */
+    -fx-border-radius: 6px;
+    -fx-cursor: hand;                  /* Cursor on hover */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 2, 2); /* Shadow */
+}
+
+/* Hover effect */
+.button:hover {
+    -fx-background-color: #76d676;     /* Slightly darker green on hover */
+}
