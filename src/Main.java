@@ -7,8 +7,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent root = loader.load();
+       System.out.println("Hello");
         primaryStage.setTitle("Hello world");
         primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();

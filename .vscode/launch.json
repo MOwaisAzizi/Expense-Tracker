@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "InsertController",
+      "request": "launch",
+      "mainClass": "InsertController",
+      "projectName": "Expense-Mananger_96bbc393"
+    },
+    {
+      "type": "java",
+      "name": "Create_DB",
+      "request": "launch",
+      "mainClass": "Create_DB",
+      "projectName": "Expense-Mananger_96bbc393"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "Expense-Mananger_96bbc393"
+    },
+    {
+      "type": "java",
       "name": "Run JavaFX App",
       "request": "launch",
       "mainClass": "Main",
