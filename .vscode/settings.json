@@ -11,6 +11,7 @@
         "d:\\javafx-sdk-24.0.1\\lib\\javafx-swt.jar",
         "d:\\javafx-sdk-24.0.1\\lib\\jdk.jsobject.jar",
         "d:\\javafx-sdk-24.0.1\\lib\\jfx.incubator.input.jar",
-        "d:\\javafx-sdk-24.0.1\\lib\\jfx.incubator.richtext.jar"
+        "d:\\javafx-sdk-24.0.1\\lib\\jfx.incubator.richtext.jar",
+        "d:\\mysql-connector-j-8.0.31.jar"
     ]
 }
