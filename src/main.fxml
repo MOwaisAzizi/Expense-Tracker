@@ -61,7 +61,7 @@
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="amount" />
                     <TextField fx:id="amount" prefHeight="32.0" prefWidth="300.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-padding:8"/>
                     <Button mnemonicParsing="false" onAction="#addOrUpdateData" 
-                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-padding:5" text="Save" />
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 15; -fx-border-radius: 15; -fx-padding:10" text="Save" />
                 </children>
             </VBox>
 
