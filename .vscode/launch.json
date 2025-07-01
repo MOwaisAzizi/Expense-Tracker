@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SelectController",
+      "request": "launch",
+      "mainClass": "SelectController",
+      "projectName": "Expense-Mananger_96bbc393"
+    },
+    {
+      "type": "java",
       "name": "InsertController",
       "request": "launch",
       "mainClass": "InsertController",
