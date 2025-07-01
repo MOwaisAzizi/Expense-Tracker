@@ -17,13 +17,14 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <TableView editable="true" layoutX="327.0" layoutY="133.0" prefHeight="228.0" prefWidth="437.0">
+      <TableView fx:id="tableView"  editable="true" layoutX="327.0" layoutY="133.0" prefHeight="228.0" prefWidth="620.0">
         <columns>
-          <TableColumn fx:id="name" prefWidth="68.0" style="color: red;" text="Operation" />
-          <TableColumn prefWidth="137.60003662109375" text="Name" />
-            <TableColumn minWidth="8.00006103515625" prefWidth="62.4000244140625" text="Amount" />
-            <TableColumn prefWidth="71.2000732421875" text="Price" />
-            <TableColumn prefWidth="98.39996337890625" text="Date" />
+            <TableColumn fx:id="colOpr" prefWidth="150.0" style="color: red;" text="Operation" id="Operations" />
+            <TableColumn fx:id="colId" prefWidth="98.39996337890625" text="Id" />
+            <TableColumn fx:id="colName" prefWidth="137.60003662109375" text="Name" />
+            <TableColumn fx:id="colAmount" minWidth="8.00006103515625" prefWidth="62.4000244140625" text="Amount" />
+            <TableColumn fx:id="colPrice" prefWidth="71.2000732421875" text="Price" />
+            <TableColumn fx:id="colDate" prefWidth="98.39996337890625" text="Date" />
         </columns>
       </TableView>
       <VBox layoutX="14.0" layoutY="133.0" prefHeight="250.0" prefWidth="306.0" spacing="10.0" style="-fx-padding: 20px;">
