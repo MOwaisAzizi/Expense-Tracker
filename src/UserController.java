@@ -118,4 +118,37 @@ private void login(ActionEvent event) {
     }
 }
 
+
+
+    public void goToSignUp(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml")); // make sure path is correct
+            Parent root = loader.load();
+
+            // Get current stage
+            Stage stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void goToLogin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml")); // make sure path is correct
+            Parent root = loader.load();
+
+            // Get current stage
+            Stage stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

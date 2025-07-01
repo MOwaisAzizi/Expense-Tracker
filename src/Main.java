@@ -9,9 +9,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
-       System.out.println("Hello");
-        primaryStage.setTitle("Hello world");
+        primaryStage.setTitle("Expense Tracker");
         primaryStage.setScene(new Scene(root, 800, 800));
+         primaryStage.setWidth(800);              // Set initial width to 800
+    primaryStage.setMinWidth(800);           // Prevent shrinking
+    primaryStage.setMaxWidth(800);           // Prevent growing
+    primaryStage.setResizable(false);
+        primaryStage.setHeight(1000);
+
         primaryStage.show();
     }
 

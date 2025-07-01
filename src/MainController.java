@@ -33,6 +33,7 @@ public class MainController {
     private static final String DB_PASSWORD = "";
 
     private final ObservableList<Note> notes = FXCollections.observableArrayList();
+    private Note selectedNote = null;
 
     @FXML
     public void initialize() {
@@ -65,10 +66,15 @@ public class MainController {
                     });
                 });
 
-                btnUpdate.setOnAction(event -> {
-                    Note note = getTableView().getItems().get(getIndex());
-                    showAlert("Update", "Update clicked for: " + note.getName());
-                });
+   btnUpdate.setOnAction(event -> {
+    selectedNote = getTableView().getItems().get(getIndex());
+
+    fName.setText(selectedNote.getName());
+    price.setText(String.valueOf(selectedNote.getPrice()));
+    amount.setText(String.valueOf(selectedNote.getAmount()));
+});
+
+
             }
 
             @Override
@@ -86,70 +92,86 @@ public class MainController {
         loadNotesFromDatabase();
     }
 
-    public void buttonClick(ActionEvent event) {
-        String name = fName.getText();
-        String priceValue = price.getText();
-        String amountValue = amount.getText();
-        String date = LocalDate.now().toString();
+public void addOrUpdateData(ActionEvent event) {
+    System.out.println("clickkkkkkkkkkkkkkkkk");
+    String name = fName.getText();
+    String priceValue = price.getText();
+    String amountValue = amount.getText();
+    String date = LocalDate.now().toString();
 
-        if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
-            showAlert("Input Error", "All fields must be filled!");
-            return;
-        }
-
-        Connection connection = null;
-
-        try {
-            int priceInt = Integer.parseInt(priceValue);
-            int amountInt = Integer.parseInt(amountValue);
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
-            String sql = "INSERT INTO note (name, price, amount, date) VALUES (?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, name);
-            statement.setInt(2, priceInt);
-            statement.setInt(3, amountInt);
-            statement.setString(4, date);
-            int affectedRows = statement.executeUpdate();
-
-            if (affectedRows == 0) {
-                showAlert("Database Error", "Failed to add note.");
-                return;
-            }
-
-            int generatedId = -1;
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                generatedId = generatedKeys.getInt(1);
-            }
-            statement.close();
-
-            notes.add(new Note(generatedId, name, priceInt, amountInt, date));
-
-            fName.clear();
-            price.clear();
-            amount.clear();
-
-            showAlert("Success", "Note added successfully!");
-
-        } catch (ClassNotFoundException e) {
-            showAlert("Driver Error", "MySQL JDBC Driver not found.");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            showAlert("Database Error", "Could not insert data: " + e.getMessage());
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            showAlert("Input Error", "Price and amount must be numbers.");
-        } finally {
-            try {
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
+        showAlert("Input Error", "All fields must be filled!");
+        return;
     }
+
+    try {
+        int priceInt = Integer.parseInt(priceValue);
+        int amountInt = Integer.parseInt(amountValue);
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+        if (selectedNote == null) {
+            // INSERT
+            String sql = "INSERT INTO note (name, price, amount, date) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, name);
+            stmt.setInt(2, priceInt);
+            stmt.setInt(3, amountInt);
+            stmt.setString(4, date);
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int newId = generatedKeys.getInt(1);
+                    notes.add(new Note(newId, name, priceInt, amountInt, date));
+                }
+                showAlert("Success", "Note added successfully!");
+            } else {
+                showAlert("Error", "Insert failed.");
+            }
+
+            stmt.close();
+        } else {
+            // UPDATE
+            String sql = "UPDATE note SET name = ?, price = ?, amount = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setInt(2, priceInt);
+            stmt.setInt(3, amountInt);
+            stmt.setInt(4, selectedNote.getId());
+
+            int rows = stmt.executeUpdate();
+            stmt.close();
+
+            if (rows > 0) {
+                selectedNote.setName(name);
+                selectedNote.setPrice(priceInt);
+                selectedNote.setAmount(amountInt);
+                tableView.refresh(); // reflect changes in UI
+                showAlert("Updated", "Note updated successfully!");
+            } else {
+                showAlert("Error", "Update failed.");
+            }
+
+            // Clear selected note after update
+            selectedNote = null;
+        }
+
+        connection.close();
+        fName.clear();
+        price.clear();
+        amount.clear();
+
+    } catch (ClassNotFoundException e) {
+        showAlert("Driver Error", "JDBC driver not found.");
+    } catch (SQLException e) {
+        showAlert("Database Error", "Error: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        showAlert("Input Error", "Price and amount must be numbers.");
+    }
+}
 
     private void loadNotesFromDatabase() {
         notes.clear();

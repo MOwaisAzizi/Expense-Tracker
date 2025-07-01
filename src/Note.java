@@ -13,6 +13,10 @@ public class Note {
         this.date = date;
     }
 
+        public void setName(String name) { this.name = name; }
+    public void setPrice(int price) { this.price = price; }
+    public void setAmount(int amount) { this.amount = amount; }
+
     public int getId() { return id; }
     public String getName() { return name; }
     public int getPrice() { return price; }
