@@ -11,8 +11,8 @@
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <Text layoutX="102.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name" wrappingWidth="53.443359375" />
       <Text layoutX="103.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="password" wrappingWidth="75.84332275390625" />
-      <TextField alignment="TOP_CENTER" layoutX="103.0" layoutY="133.0" prefHeight="26.0" prefWidth="230.0" />
-      <TextField layoutX="102.0" layoutY="199.0" prefHeight="26.0" prefWidth="230.0" />
+      <TextField fx:id="accountName" alignment="TOP_CENTER" layoutX="103.0" layoutY="133.0" prefHeight="26.0" prefWidth="230.0" />
+      <TextField fx:id="accountPassword" layoutX="102.0" layoutY="199.0" prefHeight="26.0" prefWidth="230.0" />
       <Button layoutX="103.0" layoutY="246.0" mnemonicParsing="false" onAction="#createAccount" style="-fx-background-color: green;" text="Create Account" textFill="#efebeb">
          <font>
             <Font size="11.0" />
