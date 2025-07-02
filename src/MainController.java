@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -71,7 +70,6 @@ public class MainController {
     amount.setText(String.valueOf(selectedNote.getAmount()));
 });
 
-
             }
 
             @Override
@@ -102,15 +100,16 @@ if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
     return;
 }
 
-
-    if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
+if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
         Helper.showAlert("Input Error", "All fields must be filled!");
         return;
     }
 
-    try {
-        int priceInt = Integer.parseInt(priceValue);
-        int amountInt = Integer.parseInt(amountValue);
+try {
+    int priceInt = Integer.parseInt(priceValue);
+    int amountInt = Integer.parseInt(amountValue);
+    System.out.println(priceInt);
+    System.out.println(amountInt);
 
         if (priceInt <= 0 || amountInt <= 0) {
         Helper.showAlert("Input Error", "Price and Amount must be positive numbers.");
@@ -159,13 +158,12 @@ if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
                 selectedNote.setName(name);
                 selectedNote.setPrice(priceInt);
                 selectedNote.setAmount(amountInt);
-                tableView.refresh(); // reflect changes in UI
+                tableView.refresh(); 
                 Helper.showAlert("Updated", "Note updated successfully!");
             } else {
                 Helper.showAlert("Error", "Update failed.");
             }
 
-            // Clear selected note after update
             selectedNote = null;
         }
 
@@ -218,8 +216,8 @@ if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = Helper.getConnection();
 
-            String sql = "DELETE FROM note WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            String query = "DELETE FROM note WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
             int rowsDeleted = statement.executeUpdate();

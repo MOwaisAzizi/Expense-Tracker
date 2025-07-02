@@ -17,7 +17,6 @@ public class UserController {
  @FXML private TextField accountName;
 @FXML private TextField accountPassword;
 
-
 @FXML
 private void createAccount(ActionEvent event) {
     String userName = accountName.getText();
@@ -72,6 +71,12 @@ private void login(ActionEvent event) throws ClassNotFoundException {
     String userNameValue = userName.getText();
     String userPasswordValue = userPassword.getText();
 
+    
+if (userNameValue.isEmpty() || userPasswordValue.isEmpty() ) {
+    Helper.showAlert("Error","Please enter your name and password");
+   return;
+}
+
     String query = "SELECT * FROM user WHERE name = ? AND password = ?";
 
     try (
@@ -85,7 +90,6 @@ private void login(ActionEvent event) throws ClassNotFoundException {
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
-            // Login successful
             Parent mainView = FXMLLoader.load(getClass().getResource("main.fxml"));
             Scene mainScene = new Scene(mainView);
             Node source = (Node)event.getSource();
@@ -103,10 +107,9 @@ private void login(ActionEvent event) throws ClassNotFoundException {
 
     public void goToSignUp(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml")); // make sure path is correct
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("account.fxml"));
             Parent root = loader.load();
 
-            // Get current stage
             Stage stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
 
             stage.setScene(new Scene(root));
@@ -122,7 +125,6 @@ private void login(ActionEvent event) throws ClassNotFoundException {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml")); // make sure path is correct
             Parent root = loader.load();
 
-            // Get current stage
             Stage stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
 
             stage.setScene(new Scene(root));
