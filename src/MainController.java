@@ -19,12 +19,14 @@ public class MainController {
     @FXML private TextField fName;
     @FXML private TextField price;
     @FXML private TextField amount;
+    @FXML private TextField desc;
 
     @FXML private TableView<Note> tableView;
     @FXML private TableColumn<Note, String> colName;
     @FXML private TableColumn<Note, Integer> colPrice;
     @FXML private TableColumn<Note, Integer> colAmount;
     @FXML private TableColumn<Note, String> colDate;
+    @FXML private TableColumn<Note, String> colDesc;
     @FXML private TableColumn<Note, Integer> colId;
     @FXML private TableColumn<Note, Void> colOpr;
 
@@ -37,7 +39,10 @@ public class MainController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        colId.setVisible(false);
 
         colOpr.setCellFactory(column -> new TableCell<>() {
             private final Button btnUpdate = new Button("Update");
@@ -68,8 +73,8 @@ public class MainController {
     fName.setText(selectedNote.getName());
     price.setText(String.valueOf(selectedNote.getPrice()));
     amount.setText(String.valueOf(selectedNote.getAmount()));
+    desc.setText(String.valueOf(selectedNote.getDescription()));
 });
-
             }
 
             @Override
@@ -93,6 +98,7 @@ public void addOrUpdateData(ActionEvent event) {
     String priceValue = price.getText().trim();
     String amountValue = amount.getText().trim();
     String date = LocalDate.now().toString();
+    String description = desc.getText().toString();
 
 // 3. Validate name
 if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
@@ -122,19 +128,20 @@ try {
 
         if (selectedNote == null) {
             // INSERT
-            String sql = "INSERT INTO note (name, price, amount, date) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO note (name, price, amount, date, description) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, name);
             stmt.setInt(2, priceInt);
             stmt.setInt(3, amountInt);
             stmt.setString(4, date);
+            stmt.setString(5, description);
             int affectedRows = stmt.executeUpdate();
 
             if (affectedRows > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int newId = generatedKeys.getInt(1);
-                    notes.add(new Note(newId, name, priceInt, amountInt, date));
+                    notes.add(new Note(newId, name, priceInt, amountInt, date, description));
                 }
                 Helper.showAlert("Success", "Note added successfully!");
             } else {
@@ -144,12 +151,13 @@ try {
             stmt.close();
         } else {
             // UPDATE
-            String sql = "UPDATE note SET name = ?, price = ?, amount = ? WHERE id = ?";
+            String sql = "UPDATE note SET name = ?, price = ?, amount = ?, description = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, name);
             stmt.setInt(2, priceInt);
             stmt.setInt(3, amountInt);
-            stmt.setInt(4, selectedNote.getId());
+            stmt.setString(4, description);
+            stmt.setInt(5, selectedNote.getId());
 
             int rows = stmt.executeUpdate();
             stmt.close();
@@ -158,6 +166,7 @@ try {
                 selectedNote.setName(name);
                 selectedNote.setPrice(priceInt);
                 selectedNote.setAmount(amountInt);
+                selectedNote.setDescription(description);
                 tableView.refresh(); 
                 Helper.showAlert("Updated", "Note updated successfully!");
             } else {
@@ -171,6 +180,7 @@ try {
         fName.clear();
         price.clear();
         amount.clear();
+        desc.clear();
 
     } catch (ClassNotFoundException e) {
         Helper.showAlert("Driver Error", "JDBC driver not found.");
@@ -197,7 +207,8 @@ try {
                     rs.getString("name"),
                     rs.getInt("price"),
                     rs.getInt("amount"),
-                    rs.getString("date")
+                    rs.getString("date"),
+                    rs.getString("description")
                 ));
             }
 
