@@ -19,7 +19,7 @@ public class MainController {
     @FXML private TextField fName;
     @FXML private TextField price;
     @FXML private TextField amount;
-    @FXML private TextField desc;
+    @FXML private TextArea desc;
 
     @FXML private TableView<Note> tableView;
     @FXML private TableColumn<Note, String> colName;
@@ -27,7 +27,7 @@ public class MainController {
     @FXML private TableColumn<Note, Integer> colAmount;
     @FXML private TableColumn<Note, String> colDate;
     @FXML private TableColumn<Note, String> colDesc;
-    @FXML private TableColumn<Note, Integer> colId;
+    // @FXML private TableColumn<Note, Integer> colId;
     @FXML private TableColumn<Note, Void> colOpr;
 
     private final ObservableList<Note> notes = FXCollections.observableArrayList();
@@ -40,9 +40,15 @@ public class MainController {
         colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    
+double totalUnits = 18.0;
 
-        colId.setVisible(false);
+colOpr.prefWidthProperty().bind(tableView.widthProperty().multiply(4 / totalUnits));
+colName.prefWidthProperty().bind(tableView.widthProperty().multiply(2 / totalUnits));
+colAmount.prefWidthProperty().bind(tableView.widthProperty().multiply(1.8 / totalUnits));
+colPrice.prefWidthProperty().bind(tableView.widthProperty().multiply(1 / totalUnits));
+colDate.prefWidthProperty().bind(tableView.widthProperty().multiply(3 / totalUnits));
+colDesc.prefWidthProperty().bind(tableView.widthProperty().multiply(6 / totalUnits));
 
         colOpr.setCellFactory(column -> new TableCell<>() {
             private final Button btnUpdate = new Button("Update");
@@ -101,21 +107,19 @@ public void addOrUpdateData(ActionEvent event) {
     String description = desc.getText().toString();
 
 // 3. Validate name
-if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
-    Helper.showAlert("Input Error", "Name must be 2–30 characters (letters, numbers, spaces only).");
+if (!name.matches("[a-zA-Z0-9\\s]{2,100}")) {
+    Helper.showAlert("Input Error", "Name must be 2–100 characters (letters, numbers, spaces only).");
     return;
 }
 
 if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
-        Helper.showAlert("Input Error", "All fields must be filled!");
+        Helper.showAlert("Input Error", "All fields must be filled(Description is optional)!");
         return;
     }
 
 try {
     int priceInt = Integer.parseInt(priceValue);
     int amountInt = Integer.parseInt(amountValue);
-    System.out.println(priceInt);
-    System.out.println(amountInt);
 
         if (priceInt <= 0 || amountInt <= 0) {
         Helper.showAlert("Input Error", "Price and Amount must be positive numbers.");
