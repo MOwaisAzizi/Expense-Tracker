@@ -27,11 +27,10 @@ public class MainController {
     @FXML private TableColumn<Note, Integer> colAmount;
     @FXML private TableColumn<Note, String> colDate;
     @FXML private TableColumn<Note, String> colDesc;
-    // @FXML private TableColumn<Note, Integer> colId;
     @FXML private TableColumn<Note, Void> colOpr;
 
     private final ObservableList<Note> notes = FXCollections.observableArrayList();
-    private Note selectedNote = null;
+    private Note selectedNodeForEditing = null;
 
     @FXML
     public void initialize() {
@@ -74,12 +73,12 @@ colDesc.prefWidthProperty().bind(tableView.widthProperty().multiply(6 / totalUni
                 });
 
    btnUpdate.setOnAction(event -> {
-    selectedNote = getTableView().getItems().get(getIndex());
+    selectedNodeForEditing = getTableView().getItems().get(getIndex());
 
-    fName.setText(selectedNote.getName());
-    price.setText(String.valueOf(selectedNote.getPrice()));
-    amount.setText(String.valueOf(selectedNote.getAmount()));
-    desc.setText(String.valueOf(selectedNote.getDescription()));
+    fName.setText(selectedNodeForEditing.getName());
+    price.setText(String.valueOf(selectedNodeForEditing.getPrice()));
+    amount.setText(String.valueOf(selectedNodeForEditing.getAmount()));
+    desc.setText(selectedNodeForEditing.getDescription());
 });
             }
 
@@ -130,7 +129,7 @@ try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = Helper.getConnection();
 
-        if (selectedNote == null) {
+        if (selectedNodeForEditing == null) {
             // INSERT
             String sql = "INSERT INTO note (name, price, amount, date, description) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -161,23 +160,23 @@ try {
             stmt.setInt(2, priceInt);
             stmt.setInt(3, amountInt);
             stmt.setString(4, description);
-            stmt.setInt(5, selectedNote.getId());
+            stmt.setInt(5, selectedNodeForEditing.getId());
 
             int rows = stmt.executeUpdate();
             stmt.close();
 
             if (rows > 0) {
-                selectedNote.setName(name);
-                selectedNote.setPrice(priceInt);
-                selectedNote.setAmount(amountInt);
-                selectedNote.setDescription(description);
+                selectedNodeForEditing.setName(name);
+                selectedNodeForEditing.setPrice(priceInt);
+                selectedNodeForEditing.setAmount(amountInt);
+                selectedNodeForEditing.setDescription(description);
                 tableView.refresh(); 
                 Helper.showAlert("Updated", "Note updated successfully!");
             } else {
                 Helper.showAlert("Error", "Update failed.");
             }
 
-            selectedNote = null;
+            selectedNodeForEditing = null;
         }
 
         connection.close();
