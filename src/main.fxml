@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -35,14 +36,14 @@
         </font>
     </Text>
 
-            <TableView fx:id="tableView" editable="true" prefHeight="228.0" prefWidth="500.0"  style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
+            <TableView fx:id="tableView" editable="true" prefHeight="250.0" prefWidth="650.0"  style="-fx-focus-color: transparent; -fx-faint-focus-color: transparent;">
                 <columns>
-                    <TableColumn fx:id="colOpr" prefWidth="150.0" style="color: red;" text="Operations" />
-                    <TableColumn fx:id="colId" prefWidth="50.0" text="Id" />
-                    <TableColumn fx:id="colName" prefWidth="100.0" text="Name" />
-                    <TableColumn fx:id="colAmount" prefWidth="100.0" text="Amount" />
-                    <TableColumn fx:id="colPrice" prefWidth="100.0" text="Price" />
-                    <TableColumn fx:id="colDate" prefWidth="130.0" text="Date" />
+                    <TableColumn fx:id="colOpr" style="color: red;" text="Operations" />
+                    <TableColumn fx:id="colName"  text="Name" />
+                    <TableColumn fx:id="colAmount" text="Amount" />
+                    <TableColumn fx:id="colPrice"  text="Price" />
+                    <TableColumn fx:id="colDate" text="Date" />
+                    <TableColumn fx:id="colDesc" text="Description" />
                 </columns>
             </TableView>
 
@@ -60,6 +61,8 @@
                     <TextField fx:id="price" prefHeight="28.0" prefWidth="300.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-padding:8"/>
                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="amount" />
                     <TextField fx:id="amount" prefHeight="32.0" prefWidth="300.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-padding:8"/>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+                    <TextArea fx:id="desc" prefHeight="32.0" prefWidth="300.0" style="-fx-background-radius: 25; -fx-border-radius: 25; -fx-padding:12"/>
                     <Button mnemonicParsing="false" onAction="#addOrUpdateData" 
                             style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 15; -fx-border-radius: 15; -fx-padding:10" text="Save" />
                 </children>
