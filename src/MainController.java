@@ -1,5 +1,4 @@
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -13,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import utils.Helper;
 
 public class MainController {
 
@@ -27,10 +27,6 @@ public class MainController {
     @FXML private TableColumn<Note, String> colDate;
     @FXML private TableColumn<Note, Integer> colId;
     @FXML private TableColumn<Note, Void> colOpr;
-
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/expense_tracker";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
 
     private final ObservableList<Note> notes = FXCollections.observableArrayList();
     private Note selectedNote = null;
@@ -74,7 +70,6 @@ public class MainController {
     amount.setText(String.valueOf(selectedNote.getAmount()));
 });
 
-
             }
 
             @Override
@@ -93,23 +88,37 @@ public class MainController {
     }
 
 public void addOrUpdateData(ActionEvent event) {
-    System.out.println("clickkkkkkkkkkkkkkkkk");
-    String name = fName.getText();
-    String priceValue = price.getText();
-    String amountValue = amount.getText();
+    
+    String name = fName.getText().trim();
+    String priceValue = price.getText().trim();
+    String amountValue = amount.getText().trim();
     String date = LocalDate.now().toString();
 
-    if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
-        showAlert("Input Error", "All fields must be filled!");
+// 3. Validate name
+if (!name.matches("[a-zA-Z0-9\\s]{2,30}")) {
+    Helper.showAlert("Input Error", "Name must be 2–30 characters (letters, numbers, spaces only).");
+    return;
+}
+
+if (name.isEmpty() || priceValue.isEmpty() || amountValue.isEmpty()) {
+        Helper.showAlert("Input Error", "All fields must be filled!");
         return;
     }
 
-    try {
-        int priceInt = Integer.parseInt(priceValue);
-        int amountInt = Integer.parseInt(amountValue);
+try {
+    int priceInt = Integer.parseInt(priceValue);
+    int amountInt = Integer.parseInt(amountValue);
+    System.out.println(priceInt);
+    System.out.println(amountInt);
+
+        if (priceInt <= 0 || amountInt <= 0) {
+        Helper.showAlert("Input Error", "Price and Amount must be positive numbers.");
+        return;
+    }
+
 
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        Connection connection = Helper.getConnection();
 
         if (selectedNote == null) {
             // INSERT
@@ -127,9 +136,9 @@ public void addOrUpdateData(ActionEvent event) {
                     int newId = generatedKeys.getInt(1);
                     notes.add(new Note(newId, name, priceInt, amountInt, date));
                 }
-                showAlert("Success", "Note added successfully!");
+                Helper.showAlert("Success", "Note added successfully!");
             } else {
-                showAlert("Error", "Insert failed.");
+                Helper.showAlert("Error", "Insert failed.");
             }
 
             stmt.close();
@@ -149,13 +158,12 @@ public void addOrUpdateData(ActionEvent event) {
                 selectedNote.setName(name);
                 selectedNote.setPrice(priceInt);
                 selectedNote.setAmount(amountInt);
-                tableView.refresh(); // reflect changes in UI
-                showAlert("Updated", "Note updated successfully!");
+                tableView.refresh(); 
+                Helper.showAlert("Updated", "Note updated successfully!");
             } else {
-                showAlert("Error", "Update failed.");
+                Helper.showAlert("Error", "Update failed.");
             }
 
-            // Clear selected note after update
             selectedNote = null;
         }
 
@@ -165,11 +173,11 @@ public void addOrUpdateData(ActionEvent event) {
         amount.clear();
 
     } catch (ClassNotFoundException e) {
-        showAlert("Driver Error", "JDBC driver not found.");
+        Helper.showAlert("Driver Error", "JDBC driver not found.");
     } catch (SQLException e) {
-        showAlert("Database Error", "Error: " + e.getMessage());
+        Helper.showAlert("Database Error", "Error: " + e.getMessage());
     } catch (NumberFormatException e) {
-        showAlert("Input Error", "Price and amount must be numbers.");
+        Helper.showAlert("Input Error", "Price and amount must be numbers.");
     }
 }
 
@@ -178,7 +186,7 @@ public void addOrUpdateData(ActionEvent event) {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection connection = Helper.getConnection();
 
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM note");
@@ -198,7 +206,7 @@ public void addOrUpdateData(ActionEvent event) {
             connection.close();
 
         } catch (Exception e) {
-            showAlert("Load Error", "Could not load notes: " + e.getMessage());
+            Helper.showAlert("Load Error", "Could not load notes: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -206,10 +214,10 @@ public void addOrUpdateData(ActionEvent event) {
     private void deleteNoteFromDatabase(int id) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection connection = Helper.getConnection();
 
-            String sql = "DELETE FROM note WHERE id = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+            String query = "DELETE FROM note WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
 
             int rowsDeleted = statement.executeUpdate();
@@ -217,21 +225,13 @@ public void addOrUpdateData(ActionEvent event) {
             connection.close();
 
             if (rowsDeleted == 0) {
-                showAlert("Delete Error", "Note not found or could not be deleted.");
+                Helper.showAlert("Delete Error", "Note not found or could not be deleted.");
             } else {
-                showAlert("Deleted", "Note deleted successfully.");
+                Helper.showAlert("Deleted", "Note deleted successfully.");
             }
         } catch (Exception e) {
-            showAlert("Delete Error", "Error deleting note: " + e.getMessage());
+            Helper.showAlert("Delete Error", "Error deleting note: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }
