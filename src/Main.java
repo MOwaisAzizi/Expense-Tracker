@@ -12,7 +12,7 @@ public class Main extends Application {
         primaryStage.setTitle("Expense Tracker");
         primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.setWidth(800); 
-        primaryStage.setHeight(900);
+        primaryStage.setHeight(800);
         primaryStage.show();
     }
 

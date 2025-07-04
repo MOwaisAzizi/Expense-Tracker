@@ -40,14 +40,13 @@ public class MainController {
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
     
-double totalUnits = 18.0;
-
-colOpr.prefWidthProperty().bind(tableView.widthProperty().multiply(4 / totalUnits));
-colName.prefWidthProperty().bind(tableView.widthProperty().multiply(2 / totalUnits));
-colAmount.prefWidthProperty().bind(tableView.widthProperty().multiply(1.8 / totalUnits));
-colPrice.prefWidthProperty().bind(tableView.widthProperty().multiply(1 / totalUnits));
-colDate.prefWidthProperty().bind(tableView.widthProperty().multiply(3 / totalUnits));
-colDesc.prefWidthProperty().bind(tableView.widthProperty().multiply(6 / totalUnits));
+       double totalUnits = 18.0;
+       colOpr.prefWidthProperty().bind(tableView.widthProperty().multiply(4 / totalUnits));
+       colName.prefWidthProperty().bind(tableView.widthProperty().multiply(2 / totalUnits));
+       colAmount.prefWidthProperty().bind(tableView.widthProperty().multiply(1.8 / totalUnits));
+       colPrice.prefWidthProperty().bind(tableView.widthProperty().multiply(1 / totalUnits));
+       colDate.prefWidthProperty().bind(tableView.widthProperty().multiply(3 / totalUnits));
+       colDesc.prefWidthProperty().bind(tableView.widthProperty().multiply(6 / totalUnits));
 
         colOpr.setCellFactory(column -> new TableCell<>() {
             private final Button btnUpdate = new Button("Update");

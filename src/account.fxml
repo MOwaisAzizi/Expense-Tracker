@@ -29,8 +29,8 @@
                <font>
                   <Font size="12.0" />
                </font>
-               </Button>
-         <HBox alignment="CENTER_LEFT" prefWidth="230">
+            </Button>
+            <HBox alignment="CENTER_LEFT" prefWidth="230">
                 <children>
                     <Button onAction="#goToLogin" mnemonicParsing="false" text="&lt; LOGIN" style="-fx-background-color: transparent; -fx-text-fill: #2b7cd3; -fx-cursor: hand;">
                         <font>
