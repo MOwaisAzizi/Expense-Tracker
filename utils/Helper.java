@@ -1,6 +1,5 @@
 package utils;
 
-
 import javafx.scene.control.Alert;
 
 import java.sql.Connection;
